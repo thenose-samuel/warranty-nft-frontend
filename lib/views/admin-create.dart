@@ -65,6 +65,25 @@ class _AdminHomeState extends State<AdminHome> {
     );
   }
 
+  void _showSuccessDialog(BuildContext context) {
+    showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) => CupertinoAlertDialog(
+        title: const Text('Success'),
+        content: Text('NFT has been sent to ${controller.walletAddress?.text}'),
+        actions: <CupertinoDialogAction>[
+          CupertinoDialogAction(
+            isDefaultAction: true,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return CupertinoTabScaffold(
@@ -123,7 +142,8 @@ class _AdminHomeState extends State<AdminHome> {
                   ),
                   SizedBox(
                       width: Get.width * 0.4,
-                      child: const CupertinoTextField(
+                      child:  CupertinoTextField(
+                        controller: controller.productId,
                         placeholder: 'Enter Product ID',
                       )),
                   SizedBox(
@@ -138,7 +158,8 @@ class _AdminHomeState extends State<AdminHome> {
                   ),
                   SizedBox(
                     width: Get.width * 0.4,
-                    child: const CupertinoTextField(
+                    child: CupertinoTextField(
+                      controller: controller.walletAddress,
                       placeholder: 'Enter Customer Wallet Address',
                     ),
                   ),
@@ -154,7 +175,8 @@ class _AdminHomeState extends State<AdminHome> {
                   ),
                   SizedBox(
                     width: Get.width * 0.4,
-                    child: const CupertinoTextField(
+                    child: CupertinoTextField(
+                      controller: controller.benefits,
                       maxLines: 5,
                       placeholder: 'Enter benefits or provide a link to it',
                     ),
@@ -177,8 +199,8 @@ class _AdminHomeState extends State<AdminHome> {
                             onPressed: (controller.minting.value)
                                 ? null
                                 : () async {
-                                    _showAlertDialog(context, true);
-                                  }),
+                              _showAlertDialog(context, true);
+                            }),
                       ),
                       // Obx(() => CupertinoSwitch(
                       //     value: _switchValue.value,
@@ -190,7 +212,6 @@ class _AdminHomeState extends State<AdminHome> {
                       //       } else {
                       //         _switchValue.value = value;
                       //       }
-                      //     }))
                     ],
                   ),
                   Row(
@@ -211,8 +232,9 @@ class _AdminHomeState extends State<AdminHome> {
                             onPressed: (controller.minting.value)
                                 ? null
                                 : () async {
-                                    _showAlertDialog(context, false);
-                                  },
+                              _showAlertDialog(context, false);
+                              //     }))`
+                            },
                         ),
                       )
                     ],
@@ -230,6 +252,7 @@ class _AdminHomeState extends State<AdminHome> {
                           controller.minting.value = !controller.minting.value;
                             await controller.createWarrantyToken();
                             controller.minting.value = !controller.minting.value;
+                            _showSuccessDialog(context);
                         }),
                   ),
                 ],

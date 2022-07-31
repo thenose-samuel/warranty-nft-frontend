@@ -13,9 +13,9 @@ class AdminCreateController extends GetxController {
   RxBool startDateSet = false.obs;
   RxBool endDateSet = false.obs;
   RxBool minting = false.obs;
-  TextEditingController productId = TextEditingController();
-  TextEditingController walletAddress = TextEditingController();
-  TextEditingController benefits = TextEditingController();
+  TextEditingController? productId = TextEditingController();
+  TextEditingController? walletAddress = TextEditingController();
+  TextEditingController? benefits = TextEditingController();
 
 
 
@@ -49,9 +49,9 @@ class AdminCreateController extends GetxController {
   }
   Future<void> createWarrantyToken() async{
     Map<String, dynamic> data = {
-      "productId": "123",
-      "walletAddress": "678",
-      "warrantyDetails": "hello world",
+      "productId": productId!.value.text,
+      "walletAddress": walletAddress!.value.text,
+      "warrantyDetails": benefits!.value.text,
       "issueDate": this.startDate.value.toUtc().toString(),
       "expirationDate": this.endDate.value.toUtc().toString(),
     };
